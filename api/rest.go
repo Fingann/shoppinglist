@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"shoppinglist/models"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -27,7 +29,19 @@ func (Rest) All(w http.ResponseWriter, r *http.Request) {
 
 //Single fetches a single document based on id
 func (Rest) Single(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(items)
+	paths := strings.Split(r.URL.Path, "/")
+	lastIndex := len(paths) - 1
+	index, err := strconv.Atoi(paths[lastIndex])
+	if err != nil {
+		http.Error(w, "Unable to parse index from path", http.StatusBadRequest)
+		return
+	}
+	if index >= 0 && index < len(items) {
+		json.NewEncoder(w).Encode(items[index])
+
+	} else {
+		http.Error(w, "Could not find the id", http.StatusNotFound)
+	}
 }
 
 // SetupRequests sets up all rest enpoints for the api

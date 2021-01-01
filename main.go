@@ -28,8 +28,8 @@ type itemsHandler interface {
 
 func handleRequests(handler itemsHandler) {
 
-	http.HandleFunc("/api/items", itemsHandler.All)
-
+	http.HandleFunc("/api/items", handler.All)
+	http.HandleFunc("/api/items/", handler.Single)
 	log.Println("Strating the server on port: ", Port)
 	address := fmt.Sprint(Host, ":", Port)
 	log.Fatal(http.ListenAndServe(address, nil))
