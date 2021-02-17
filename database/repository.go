@@ -20,12 +20,13 @@ func (e Error) Error() string {
 type Reader interface {
 	Find(id string) (interface{}, error)
 	FindAll() (interface{}, error)
+	Filter(predicate func(interface{}) bool) (interface{}, error)
 }
 
 //Writer will perform write actions against the database
 type Writer interface {
-	Update(entity *interface{}) (interface{}, error)
-	Create(entity *interface{}) (string, error)
+	Update(entity interface{}) (interface{}, error)
+	Create(entity interface{}) (interface{}, error)
 	Delete(id string) (interface{}, error)
 }
 
