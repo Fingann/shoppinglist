@@ -1,9 +1,7 @@
 package database
 
 import (
-	"context"
 	"fmt"
-	"io"
 	"os"
 	"shoppinglist/models"
 
@@ -103,18 +101,6 @@ func (db *ElasticDB) Exists(id interface{}) (bool, error) {
 
 //Search after Something
 func (db *ElasticDB) Search(query string) (interface{}, error) {
-	db.context.API.Search(db.context.API.Search.WithIndex(db.indexName),
-		db.context.API.Search.WithContext(context.Background()),
-		db.context.API.Search.WithBody(Strings.NewReader(`{
-			"query": {
-			  "bool": {
-				"must": [
-				  { "match": { "name":   "`+query+`"        }}
-				]
-			  }
-			}
-		  }`),
-	)
 	return nil, nil
 }
 
